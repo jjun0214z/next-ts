@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      1{number}
+      {number}
       <button type="button" onClick={handleClick}>
         dispatch
       </button>
