@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+const path = require('path');
+module.exports = {
+  // reactStrictMode: true,
   swcMinify: true,
-}
-
-module.exports = nextConfig
+  webpack(config, { webpack }) {
+    config.resolve = {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
+      ...config.resolve,
+    };
+    return config;
+  },
+};
