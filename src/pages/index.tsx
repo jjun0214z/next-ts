@@ -16,13 +16,9 @@ const Home: NextPage = () => {
     dispatch(testActions.setCounter({ number: number + 1 }));
   };
 
-  useEffect(() => {
-    // console.log(testNumber);
-  }, [number]);
-
   return (
     <div>
-      {number}
+      1{number}
       <button type="button" onClick={handleClick}>
         dispatch
       </button>
