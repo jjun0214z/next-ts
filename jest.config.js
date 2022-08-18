@@ -1,5 +1,5 @@
 module.exports = {
-  setupFilesAfterEnv: ["<rootDir>/enzyme.ts"],
+  setupFilesAfterEnv: ["<rootDir>/enzyme.js"],
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   preset: "ts-jest",
   transform: {
