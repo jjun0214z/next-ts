@@ -21,7 +21,6 @@ const slice = createSlice({
   initialState,
   reducers: {
     setCounter(state, { payload }: PayloadAction<{ number: number }>) {
-      console.log(payload, 'payloadpayload');
       const { number } = payload;
       state.number = number;
     },

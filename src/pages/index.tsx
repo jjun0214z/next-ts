@@ -1,3 +1,4 @@
+import useInput from '@/hooks/useInput';
 import wrapper, { RootState } from '@/store/configureStore';
 import { testActions } from '@/store/reducers';
 import type {
@@ -5,20 +6,29 @@ import type {
   GetServerSidePropsContext,
   NextPage,
 } from 'next';
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Home: NextPage = () => {
-  const dispatch = useDispatch();
-  const { number } = useSelector(({ test }: RootState) => test);
-
   const handleClick = () => {
     dispatch(testActions.setCounter({ number: number + 1 }));
   };
 
+  const handleValidator = function (value: string | number) {
+    if (typeof value === 'string') {
+      return value.length > 10;
+    }
+    return false;
+  };
+
+  const dispatch = useDispatch();
+  const { number } = useSelector(({ test }: RootState) => test);
+  const input = useInput({ validator: handleValidator });
+
   return (
     <div>
       {number}
+      {input.utils.valid ? 'ok' : 'fail'}
+      <input type="text" {...input.attr} />
       <button type="button" onClick={handleClick}>
         dispatch
       </button>
