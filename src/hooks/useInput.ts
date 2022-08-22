@@ -20,9 +20,7 @@ const useInput = function ({ initalValue, validator }: IProps = {}) {
       setValid(validator(value));
     }
 
-    if (!valid) {
-      setValue(value);
-    }
+    setValue(value);
   };
 
   return {

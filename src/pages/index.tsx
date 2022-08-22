@@ -1,3 +1,4 @@
+import { Input } from '@/assets/styles/common/form';
 import useInput from '@/hooks/useInput';
 import wrapper, { RootState } from '@/store/configureStore';
 import { testActions } from '@/store/reducers';
@@ -10,14 +11,20 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Home: NextPage = () => {
   const handleClick = () => {
-    dispatch(testActions.setCounter({ number: number + 1 }));
+    const {
+      attr: { value },
+      utils: { valid },
+    } = input;
+
+    if (!valid) {
+      dispatch(testActions.setCounter({ number: Number(value) }));
+    } else {
+      alert('100이상은 입력할수 없습니다.');
+    }
   };
 
   const handleValidator = function (value: string | number) {
-    if (typeof value === 'string') {
-      return value.length > 10;
-    }
-    return false;
+    return value >= 100;
   };
 
   const dispatch = useDispatch();
@@ -26,9 +33,11 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      {number}
-      {input.utils.valid ? 'ok' : 'fail'}
-      <input type="text" {...input.attr} />
+      store: {number}
+      <br />
+      input validation: {!input.utils.valid ? 'ok' : 'fail'}
+      <br />
+      <Input.TEXT type="number" {...input.attr} />
       <button type="button" onClick={handleClick}>
         dispatch
       </button>
