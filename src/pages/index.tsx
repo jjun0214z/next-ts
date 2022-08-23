@@ -1,12 +1,13 @@
 import { Input } from '@/assets/styles/common/form';
 import useInput from '@/hooks/useInput';
 import wrapper, { RootState } from '@/store/configureStore';
-import { testActions } from '@/store/reducers';
+import { asyncActions, testActions } from '@/store/reducers';
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   NextPage,
 } from 'next';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Home: NextPage = () => {
@@ -23,13 +24,23 @@ const Home: NextPage = () => {
     }
   };
 
+  const handleAsyncClick = () => {
+    const {
+      attr: { value },
+    } = asyncInput;
+
+    dispatch(asyncActions.request({ q: String(value) }));
+  };
+
   const handleValidator = function (value: string | number) {
     return value >= 100;
   };
 
   const dispatch = useDispatch();
   const { number } = useSelector(({ test }: RootState) => test);
+  const { isLoading, data } = useSelector(({ async }: RootState) => async);
   const input = useInput({ validator: handleValidator });
+  const asyncInput = useInput();
 
   return (
     <div>
@@ -41,6 +52,16 @@ const Home: NextPage = () => {
       <button type="button" onClick={handleClick}>
         dispatch
       </button>
+      <br />
+      <br />
+      <Input.TEXT type="text" {...asyncInput.attr} />
+      <button type="button" onClick={handleAsyncClick}>
+        비동기 dispatch
+      </button>
+      <br />
+      {isLoading && '로딩중'}
+      <br />
+      {data && `조회결과: ${data.total_count}`}
     </div>
   );
 };

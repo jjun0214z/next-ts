@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
 module.exports = {
-  // reactStrictMode: true,
+  reactStrictMode: true,
   swcMinify: true,
   webpack(config, { webpack }) {
     config.resolve = {
@@ -11,5 +11,13 @@ module.exports = {
       ...config.resolve,
     };
     return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
+    ];
   },
 };

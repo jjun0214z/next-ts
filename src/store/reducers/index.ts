@@ -4,12 +4,15 @@ import type { AnyAction, CombinedState } from '@reduxjs/toolkit';
 
 // reducers
 import testReducer, { TestStateType } from './testReducer';
+import asyncReducer, { AsyncStateType } from './asyncReducer';
 
 // actions
 export { testActions } from './testReducer';
+export { asyncActions } from './asyncReducer';
 
 type ReducerState = {
   test: TestStateType;
+  async: AsyncStateType;
 };
 
 const rootReducer = (
@@ -27,6 +30,7 @@ const rootReducer = (
     default:
       return combineReducers({
         test: testReducer,
+        async: asyncReducer,
       })(state, action);
   }
 };

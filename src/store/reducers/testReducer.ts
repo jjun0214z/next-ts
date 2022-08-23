@@ -1,12 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export type TestStateType = {
+export interface TestStateType {
   number: number;
-};
+}
 
 const initialState: TestStateType = {
   number: 0,
+};
+
+const actionTypes = {
+  SET_COUNTER: 'setCounter',
 };
 
 /**
@@ -20,7 +24,10 @@ const slice = createSlice({
   name: 'test',
   initialState,
   reducers: {
-    setCounter(state, { payload }: PayloadAction<{ number: number }>) {
+    [actionTypes.SET_COUNTER](
+      state,
+      { payload }: PayloadAction<{ number: number }>
+    ) {
       const { number } = payload;
       state.number = number;
     },
