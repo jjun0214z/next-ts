@@ -34,7 +34,9 @@ function* fetchData(action: PayloadAction<ISearchUserParams>) {
         ? error.response.data.message
         : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
-    alert(message);
+    if (process.browser) {
+      alert(message);
+    }
 
     // 실패한 액션 디스패치
     yield put(

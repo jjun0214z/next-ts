@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
 module.exports = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   swcMinify: true,
   webpack(config, { webpack }) {
     config.resolve = {

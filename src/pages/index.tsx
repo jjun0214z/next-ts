@@ -9,8 +9,15 @@ import type {
 } from 'next';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import TestComponent from '@/componenrts/atoms/TestComponent';
+import { END } from 'redux-saga';
 
-const Home: NextPage = () => {
+interface IProps {
+  q: string;
+  number: number;
+}
+
+const Home: NextPage<IProps> = (props) => {
   const handleClick = () => {
     const {
       attr: { value },
@@ -42,6 +49,15 @@ const Home: NextPage = () => {
   const input = useInput({ validator: handleValidator });
   const asyncInput = useInput();
 
+  useEffect(() => {
+    if (props.number) {
+      input.utils.setValue(props.number);
+    }
+    if (props.q) {
+      asyncInput.utils.setValue('test');
+    }
+  }, []);
+
   return (
     <div>
       store: {number}
@@ -62,17 +78,27 @@ const Home: NextPage = () => {
       {isLoading && '로딩중'}
       <br />
       {data && `조회결과: ${data.total_count}`}
+      <TestComponent />
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps(
-    ({ dispatch }) =>
+    ({ dispatch, sagaTask }) =>
       async (context: GetServerSidePropsContext) => {
-        dispatch(testActions.setCounter({ number: 10 }));
+        const props = {
+          number: 10,
+          q: 'test',
+        };
+        dispatch(testActions.setCounter({ number: props.number }));
+        dispatch(asyncActions.request({ q: props.q }));
+
+        // 밑에 두 개는 REQUEST이후 SUCCESS가 될 때까지 기다려주게 해주는 코드
+        dispatch(END);
+        await sagaTask.toPromise();
         return {
-          props: {},
+          props,
         };
       }
   );

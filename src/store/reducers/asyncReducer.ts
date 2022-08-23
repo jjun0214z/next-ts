@@ -41,6 +41,7 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<ISearchUserResponse>
     ) {
+      console.log(payload, 'payloadpayloadpayloadpayload');
       state.data = payload;
       state.isLoading = false;
     },
